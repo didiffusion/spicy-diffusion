@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { Range } from 'react-range';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,12 +30,17 @@ export default function Home() {
 
       <div>
         <form>
-          <div>Positive Prompt</div>
-          <div>Negative Prompt</div>
-          <div>Generate Button</div>
+          <label for="positive">Positive Prompt:</label>
+          <input type="text" id="positive" name="positive" />
+          <label for="negative">negative:</label>
+          <input type="text" id="negative" name="negative" />          
+          <button type="submit">Generate</button>
           <div>Slider 1</div>
+          <SuperSimple></SuperSimple>
           <div>Slider 2</div>
+          <SuperSimple></SuperSimple>
           <div>Slider 3</div>
+          <SuperSimple></SuperSimple>
           <div>Image</div>
           <Image src="/test_images/bowl_of_fruits/02658-64228577-a bowl of fruits including apple, orange, grapes.png" alt="Bowl" className="" width={100} height={24} priority />
           <Image src="/test_images/bowl_of_fruits/02713-64228577-a bowl of fruits including (apple_1.6), (orange_1.6), grapes.png" alt="Bowl" className="" width={100} height={24} priority />
@@ -101,4 +107,44 @@ export default function Home() {
       </div>
     </main>
   )
+}
+
+import * as React from 'react';
+class SuperSimple extends React.Component {
+  state = { values: [50] };
+  render() {
+    return (
+      <Range
+        step={0.1}
+        min={0}
+        max={100}
+        values={this.state.values}
+        onChange={(values) => this.setState({ values })}
+        renderTrack={({ props, children }) => (
+          <div
+            {...props}
+            style={{
+              ...props.style,
+              height: '6px',
+              width: '100%',
+              backgroundColor: '#ccc'
+            }}
+          >
+            {children}
+          </div>
+        )}
+        renderThumb={({ props }) => (
+          <div
+            {...props}
+            style={{
+              ...props.style,
+              height: '42px',
+              width: '42px',
+              backgroundColor: '#999'
+            }}
+          />
+        )}
+      />
+    );
+  }
 }
