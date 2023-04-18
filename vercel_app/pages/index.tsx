@@ -41,7 +41,10 @@ export default function Home() {
           <SuperSimple></SuperSimple>
           <div>Slider 3</div>
           <SuperSimple></SuperSimple>
-          <div>Image</div>
+          <div>Result Image</div>
+          <Image src="/test_images/bowl_of_fruits/02658-64228577-a bowl of fruits including apple, orange, grapes.png" alt="Bowl" className="" width={512} height={512} priority />
+
+          <div>Memory loaded images</div>
           <Image src="/test_images/bowl_of_fruits/02658-64228577-a bowl of fruits including apple, orange, grapes.png" alt="Bowl" className="" width={100} height={24} priority />
           <Image src="/test_images/bowl_of_fruits/02713-64228577-a bowl of fruits including (apple_1.6), (orange_1.6), grapes.png" alt="Bowl" className="" width={100} height={24} priority />
           <Image src="/test_images/bowl_of_fruits/02659-64228577-a bowl of fruits including (apple_1.1), orange, grapes.png" alt="Bowl" className="" width={100} height={24} priority />
