@@ -32,7 +32,7 @@ export default function Home() {
         <form>
           <label for="positive">Positive Prompt:</label>
           <input type="text" id="positive" name="positive" />
-          <label for="negative">negative:</label>
+          <label for="negative">Negative Prompt:</label>
           <input type="text" id="negative" name="negative" />          
           <button type="submit">Generate</button>
           <div>Slider 1</div>
