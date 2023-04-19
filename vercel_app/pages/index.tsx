@@ -5,9 +5,20 @@ import { useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const image_matrix = [
+    '/test_images/bowl_of_fruits/02658-64228577-a bowl of fruits including apple, orange, grapes.png',
+    '/test_images/bowl_of_fruits/02659-64228577-a bowl of fruits including (apple_1.1), orange, grapes.png',
+    '/test_images/bowl_of_fruits/02660-64228577-a bowl of fruits including (apple_1.2), orange, grapes.png',
+    '/test_images/bowl_of_fruits/02660-64228577-a bowl of fruits including (apple_1.2), orange, grapes.png',
+]
+
 export default function Home() {
     const [midiMessage, setMidiMessage] = useState([0, 0, 0]);
+    const [imageLoad, setImageLoad] = useState('/test_images/bowl_of_fruits/02658-64228577-a bowl of fruits including apple, orange, grapes.png');
+    
     let CC = midiMessage[2];
+
+
 
     const handleMidi = () => {
         if (navigator.requestMIDIAccess) {
@@ -31,6 +42,7 @@ export default function Home() {
         function failure() {
             console.log("Could not connect MIDI");
         }
+
     };
 
     useEffect(() => {
@@ -70,14 +82,14 @@ export default function Home() {
                         <input type="text" id="negative" name="negative" />
                         <button type="submit">Generate</button>
                         <div>Slider 1</div>
-                        <SuperSimple midi={midiMessage}></SuperSimple>
+                        <SuperSimple midi={midiMessage} setImageLoad={setImageLoad}></SuperSimple>
                         <div>Slider 2</div>
-                        <SuperSimple midi={midiMessage}></SuperSimple>
+                        <SuperSimple midi={midiMessage} setImageLoad={setImageLoad}></SuperSimple>
                         <div>Slider 3</div>
-                        <SuperSimple midi={midiMessage}></SuperSimple>
+                        <SuperSimple midi={midiMessage} setImageLoad={setImageLoad}></SuperSimple>
                         <div>Result Image</div>
                         <Image
-                            src="/test_images/bowl_of_fruits/02658-64228577-a bowl of fruits including apple, orange, grapes.png"
+                            src={imageLoad}
                             alt="Bowl"
                             className=""
                             width={512}

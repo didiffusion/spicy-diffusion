@@ -1,15 +1,17 @@
 import * as React from "react";
 import { Range } from "react-range";
 import { FC, useEffect, useState } from "react";
+import { image_matrix } from "@/pages";
 
 interface SliderProps {
     midi: number[];
+    setImageLoad: Function;
 }
 
-const SuperSimple: FC<SliderProps> = ({ midi }) => {
+const SuperSimple: FC<SliderProps> = ({ midi, setImageLoad }) => {
     //state = { values: [50] };
 
-    const [values, setValues] = useState(50);
+    const [values, setValues] = useState(0);
     const [command, setCommand] = useState(0);
     const [note, setNote] = useState(0);
     const [velocity, setVelocity] = useState();
@@ -26,12 +28,20 @@ const SuperSimple: FC<SliderProps> = ({ midi }) => {
         setNote(midi[1]);
     };
 
+    useEffect(() => {
+        console.log(values)
+    }, [values]);
+
+    useEffect(() => {
+        setImageLoad(image_matrix[values])
+    }, [values]);
+
     return (
         <>
             <Range
-                step={0.1}
+                step={1}
                 min={0}
-                max={100}
+                max={3}
                 values={[values]}
                 onChange={(values) => setValues(values)}
                 renderTrack={({ props, children }) => (
@@ -62,6 +72,7 @@ const SuperSimple: FC<SliderProps> = ({ midi }) => {
             <button type="button" onClick={handleClick}>
                 {note ? note : "MAP"}
             </button>
+            {values}
         </>
     );
 };
