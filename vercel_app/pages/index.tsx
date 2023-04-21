@@ -157,7 +157,7 @@ export default function Home() {
     }, [CC]);
 
 
-const weightsForPrompts = [1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
+const weightsForPrompts = [0.8, 0.9, 1.2, 1.3, 1.4, 1.5, 1.6]
 
 
 
@@ -183,7 +183,7 @@ function handleGenerate(e:any){
 
     //console.log(result)
     var pairs = []
-    var pairs = result[0].reduce(
+    var pairs = result[0]?.reduce(
          (p, c) => p.concat(
             result[1].map( v => [c].concat(v).
             concat({"x":result[0].indexOf(c),"y":result[1].indexOf(v)}))
@@ -191,7 +191,7 @@ function handleGenerate(e:any){
     )
     //console.log(pairs)
 
-    pairs.forEach(item => {
+    pairs?.forEach(item => {
         let text_prompts = [
             {"text": promptWithoutKeywords},
             {"text": item[0].text, "weight":item[0].weight},
@@ -233,7 +233,8 @@ const generateImage = async (text_prompts, x, y) => {
                 height: 512,
                 width: 512,
                 samples: 1,
-                steps: 10,
+                steps: 30,
+                seed:123
             }),
         }
     );
