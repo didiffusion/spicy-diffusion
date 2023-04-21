@@ -1,3 +1,8 @@
+// TODO
+// Obtener palabras claves del prompt al apreatar "Generate"
+// Hacer un llamado a la API por cada permutacion de palabras claves
+// Cargar la matriz con los resutlados de las imagenes
+
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import SuperSimple from "@/components/SuperSimple";
@@ -77,6 +82,9 @@ export let image_matrix_index = [0,0]
 export default function Home() {
     const [midiMessage, setMidiMessage] = useState({channel:0,value:0});
     const [imageLoad, setImageLoad] = useState(image_matrix[image_matrix_index[0]][image_matrix_index[1]]);
+    const [userApiKey, setUserApiKey] = useState("");
+
+    const [imgExample, setImgExample] = useState("");
 
     let CC = midiMessage.value;
 
@@ -103,7 +111,7 @@ export default function Home() {
         setPrompt(results);
     }
 
-    function updateMatrixIndex(dimension, value){
+    function updateMatrixIndex(dimension, value) {
         image_matrix_index[dimension] = value;
     }
 
@@ -143,6 +151,48 @@ export default function Home() {
         return () => {};
     }, [CC]);
 
+
+const generateImage = async (e: any) => {
+    e.preventDefault();
+    const engineId = 'stable-diffusion-768-v2-1';
+    const apiHost = 'https://api.stability.ai'; // ???
+    const apiKey = userApiKey; // ???
+
+    if (!apiKey) throw new Error('Missing Stability API key.')
+
+    const response = await fetch(
+        `${apiHost}/v1/generation/${engineId}/text-to-image`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+                text_prompts: [
+                    {
+                        text: 'A lighthouse on a cliff',
+                    },
+                ],
+                cfg_scale: 7,
+                clip_guidance_preset: 'FAST_BLUE',
+                height: 768,
+                width: 768,
+                samples: 1,
+                steps: 10,
+            }),
+        }
+    );
+
+    await response.json().then((data) => {
+        if (data)
+            setImgExample(data.artifacts[0].base64)
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
     return (
         <>
             <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -170,7 +220,9 @@ export default function Home() {
                     <form>
                         <label htmlFor="positive">Positive Prompt:</label>
                         <input style={{ color: "black" }} onChange={(e: any) => setUserInput(e.target.value)} type="text" id="positive" name="positive" />
-                        <button onClick={(e: any) => storePositivePromptKeywords(e)} style={{ border: "1px solid white", margin: 20, fontSize: 26, padding: 32 }} type="submit">Generate</button>
+                        <label htmlFor="api-key">Api key:</label>
+                        <input style={{ color: "black" }} onChange={(e: any) => setUserApiKey(e.target.value)} type="password" id="api-key" name="apiKey" />
+                        <button onClick={(e) => generateImage(e)} style={{ border: "1px solid white", margin: 20, fontSize: 26, padding: 32 }} type="submit">Generate</button>
                         <div>Slider 1</div>
                         <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad}></SuperSimple>
                         <div>Slider 2</div>
@@ -184,6 +236,7 @@ export default function Home() {
                             height={512}
                             priority
                         />
+                        <Image src={`data:image/jpg;base64,${imgExample}`} width={768} height={768} alt="img-example" />
                     </form>
                 </div>
 

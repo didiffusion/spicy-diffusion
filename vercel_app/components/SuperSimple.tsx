@@ -53,7 +53,7 @@ const SuperSimple: FC<SliderProps> = ({ midiMessage, updateMatrixIndex, setImage
                 min={0}
                 max={6}
                 values={[sliderValue]}
-                onChange={(values: any) => setSliderSliderValues(values)}
+                onChange={(values) => setSliderSliderValues(values)}
                 renderTrack={({ props, children }) => (
                     <div
                         {...props}
