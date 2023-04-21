@@ -92,23 +92,28 @@ export default function Home() {
     const [userInput, setUserInput] = useState("");
     const [prompt, setPrompt] = useState([]);
 
-    function storePositivePromptKeywords (e: any) {
-        e.preventDefault();
+    function storePositivePromptKeywords () {
 
         let results = [];
-
-        let startIndex = userInput.indexOf("__");
+        const separator = '_'
+        let startIndex = userInput.indexOf(separator);
+        
 
         while (startIndex !== -1) {
-            const endIndex = userInput.indexOf("__", startIndex + 2);
-            if (endIndex === -1 || results.length >= 3) break;
+            const endIndex = userInput.indexOf(separator, startIndex + 1);
+            if (endIndex === -1 || results.length >= 2) break; // 2 is the max numbers of variables now
 
-            const foundString = userInput.slice(startIndex + 2, endIndex);
+            const foundString = userInput.slice(startIndex + 1, endIndex);
             results.push(foundString);
 
-            startIndex = userInput.indexOf("__", endIndex + 2);
+            startIndex = userInput.indexOf(separator, endIndex + 1);
         }
         setPrompt(results);
+    }
+
+    function getPromptWithoutKeywords(){
+        let result = userInput.replace(/ *\_[^)]*\_ */g, "");
+        return result
     }
 
     function updateMatrixIndex(dimension, value) {
@@ -142,7 +147,7 @@ export default function Home() {
     };
 
     useEffect(() => {
-        console.log("PROMPT:", prompt)
+        //console.log("PROMPT:", prompt)
     }, [prompt]);
 
     useEffect(() => {
@@ -152,8 +157,56 @@ export default function Home() {
     }, [CC]);
 
 
-const generateImage = async (e: any) => {
+const weightsForPrompts = [1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
+
+
+
+function handleGenerate(e:any){
     e.preventDefault();
+    storePositivePromptKeywords()
+    let promptWithoutKeywords = getPromptWithoutKeywords()
+    //console.log(promptWithoutKeywords)
+
+    let result  = []
+
+    prompt.forEach(function (p){
+        //console.log(p)
+        let term_array = []
+        weightsForPrompts.forEach(function (weight) {
+            //console.log(weight);
+            let prompt_string = "(" + p + "_" + weight + ")"
+            //console.log(prompt_string)
+            term_array.push({"text": p, "weight": weight })
+        });
+        result.push(term_array)
+      });     
+
+    //console.log(result)
+    var pairs = []
+    var pairs = result[0].reduce(
+         (p, c) => p.concat(
+            result[1].map( v => [c].concat(v).
+            concat({"x":result[0].indexOf(c),"y":result[1].indexOf(v)}))
+        ), []
+    )
+    //console.log(pairs)
+
+    pairs.forEach(item => {
+        let text_prompts = [
+            {"text": promptWithoutKeywords},
+            {"text": item[0].text, "weight":item[0].weight},
+            {"text": item[1].text, "weight":item[1].weight},
+        ]
+        console.log(text_prompts)
+        console.log(item[2])
+        
+    });
+
+}
+
+
+
+const generateImage = async () => {
     const engineId = 'stable-diffusion-768-v2-1';
     const apiHost = 'https://api.stability.ai'; // ???
     const apiKey = userApiKey; // ???
@@ -222,7 +275,7 @@ const generateImage = async (e: any) => {
                         <input style={{ color: "black" }} onChange={(e: any) => setUserInput(e.target.value)} type="text" id="positive" name="positive" />
                         <label htmlFor="api-key">Api key:</label>
                         <input style={{ color: "black" }} onChange={(e: any) => setUserApiKey(e.target.value)} type="password" id="api-key" name="apiKey" />
-                        <button onClick={(e) => generateImage(e)} style={{ border: "1px solid white", margin: 20, fontSize: 26, padding: 32 }} type="submit">Generate</button>
+                        <button onClick={(e) => handleGenerate(e)} style={{ border: "1px solid white", margin: 20, fontSize: 26, padding: 32 }} type="submit">Generate</button>
                         <div>Slider 1</div>
                         <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad}></SuperSimple>
                         <div>Slider 2</div>
