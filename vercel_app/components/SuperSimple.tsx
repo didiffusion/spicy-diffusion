@@ -1,47 +1,59 @@
 import * as React from "react";
 import { Range } from "react-range";
 import { FC, useEffect, useState } from "react";
-import { image_matrix } from "@/pages";
+import {image_matrix, image_matrix_index} from "@/pages";
 
 interface SliderProps {
-    midi: number[];
-    setImageLoad: Function;
+    midiMessage: {channel:number, value:number};
+    updateMatrixIndex: Function;
 }
 
-const SuperSimple: FC<SliderProps> = ({ midi, setImageLoad }) => {
-    const [values, setValues] = useState(0);
-    const [command, setCommand] = useState(0);
+const SuperSimple: FC<SliderProps> = ({ midiMessage, updateMatrixIndex, setImageLoad }) => {
+    const [sliderValue, setSliderSliderValues] = useState(0);
     const [note, setNote] = useState(0);
-    const [velocity, setVelocity] = useState();
+
+    function clamp(input: number, min: number, max: number): number {
+        return input < min ? min : input > max ? max : input;
+      }
+
+    function map(current: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
+        const mapped: number = ((current - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+        return clamp(mapped, out_min, out_max);
+    }
 
     useEffect(() => {
-        if (midi[1] == note) {
-            setValues(midi[2]);
+        if (midiMessage.channel == note) {
+            let mapped_value = map(midiMessage.value, 0,127,0,6)
+            setSliderSliderValues(Math.floor(mapped_value));
         }
 
         return () => {};
-    }, [midi]);
+    }, [midiMessage]);
 
     const handleClick = () => {
-        setNote(midi[1]);
+        setNote(midiMessage.channel);
     };
 
     useEffect(() => {
-        console.log(values)
-    }, [values]);
+        let mapped_value = map(midiMessage.value, 0,127,0,6)
+        updateMatrixIndex(midiMessage.channel, Math.floor(mapped_value))
+    }, [midiMessage]);
 
     useEffect(() => {
-        setImageLoad(image_matrix[values])
-    }, [values]);
+        if (sliderValue) {
+            updateMatrixIndex(0, sliderValue[0])
+            setImageLoad(image_matrix[image_matrix_index[0]][image_matrix_index[1]])
+        }
+    }, [sliderValue]);
 
     return (
         <>
             <Range
                 step={1}
                 min={0}
-                max={3}
-                values={[values]}
-                onChange={(values: any) => setValues(values)}
+                max={6}
+                values={[sliderValue]}
+                onChange={(values: any) => setSliderSliderValues(values)}
                 renderTrack={({ props, children }) => (
                     <div
                         {...props}
@@ -70,7 +82,7 @@ const SuperSimple: FC<SliderProps> = ({ midi, setImageLoad }) => {
             <button type="button" onClick={handleClick}>
                 {note ? note : "MAP"}
             </button>
-            {values}
+            {sliderValue}
         </>
     );
 };
