@@ -6,17 +6,86 @@ import { useEffect, useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const image_matrix = [
-    '/test_images/bowl_of_fruits/02658-64228577-a bowl of fruits including apple, orange, grapes.png',
-    '/test_images/bowl_of_fruits/02659-64228577-a bowl of fruits including (apple_1.1), orange, grapes.png',
-    '/test_images/bowl_of_fruits/02660-64228577-a bowl of fruits including (apple_1.2), orange, grapes.png',
-    '/test_images/bowl_of_fruits/02660-64228577-a bowl of fruits including (apple_1.2), orange, grapes.png',
+    [
+    '/test_images/bowl_of_fruits/a bowl of fruits including apple, orange, grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.1), orange, grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.2), orange, grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.3), orange, grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.4), orange, grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.5), orange, grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.6), orange, grapes.png',
+    ],
+    [
+    '/test_images/bowl_of_fruits/a bowl of fruits including apple, (orange_1.1), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.1), (orange_1.1), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.2), (orange_1.1), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.3), (orange_1.1), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.4), (orange_1.1), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.5), (orange_1.1), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.6), (orange_1.1), grapes.png',
+    ],
+    [
+    '/test_images/bowl_of_fruits/a bowl of fruits including apple, (orange_1.2), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.1), (orange_1.2), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.2), (orange_1.2), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.3), (orange_1.2), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.4), (orange_1.2), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.5), (orange_1.2), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.6), (orange_1.2), grapes.png',
+    ],
+    [
+    '/test_images/bowl_of_fruits/a bowl of fruits including apple, (orange_1.3), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.2), (orange_1.3), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.1), (orange_1.3), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.3), (orange_1.3), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.4), (orange_1.3), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.5), (orange_1.3), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.6), (orange_1.3), grapes.png',
+    ],
+    [
+    '/test_images/bowl_of_fruits/a bowl of fruits including apple, (orange_1.4), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.1), (orange_1.4), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.2), (orange_1.4), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.3), (orange_1.4), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.4), (orange_1.4), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.5), (orange_1.4), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.6), (orange_1.4), grapes.png',
+    ],
+    [
+    '/test_images/bowl_of_fruits/a bowl of fruits including apple, (orange_1.5), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.1), (orange_1.5), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.2), (orange_1.5), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.3), (orange_1.5), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.4), (orange_1.5), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.5), (orange_1.5), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.6), (orange_1.5), grapes.png',
+    ],
+    [
+    '/test_images/bowl_of_fruits/a bowl of fruits including apple, (orange_1.6), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.1), (orange_1.6), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.2), (orange_1.6), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.3), (orange_1.6), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.4), (orange_1.6), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.5), (orange_1.6), grapes.png',
+    '/test_images/bowl_of_fruits/a bowl of fruits including (apple_1.6), (orange_1.6), grapes.png',
+    ],
+
 ]
 
+export let matrix_index = [0,0]
+
 export default function Home() {
-    const [midiMessage, setMidiMessage] = useState([0, 0, 0]);
-    const [imageLoad, setImageLoad] = useState('/test_images/bowl_of_fruits/02658-64228577-a bowl of fruits including apple, orange, grapes.png');
+    const [midiMessage, setMidiMessage] = useState({channel:0,value:0});
+    const [imageLoad, setImageLoad] = useState(image_matrix[matrix_index[0]][matrix_index[1]]);
     
-    let CC = midiMessage[2];
+    let CC = midiMessage.value;
+
+
+    function updateMatrixIndex(dimension, value){
+        matrix_index[dimension] = value;
+        console.log(matrix_index);
+    }
+
 
 
 
@@ -33,7 +102,7 @@ export default function Home() {
         }
 
         function handleInput(input: any) {
-            setMidiMessage([input.data[0], input.data[1], input.data[2]]);
+            setMidiMessage({channel:input.data[1], value:input.data[2]});
         }
         function updateDevices(event: any) {
             // console.log(`name: ${event.port.name} `);
@@ -47,9 +116,15 @@ export default function Home() {
 
     useEffect(() => {
         handleMidi();
-
+        setImageLoad(image_matrix[matrix_index[0]][matrix_index[1]]);
         return () => {};
     }, [CC]);
+
+    useEffect(() => {
+        console.log(imageLoad);
+        return () => {};
+    }, [imageLoad]);
+
 
     return (
         <>
@@ -82,11 +157,9 @@ export default function Home() {
                         <input type="text" id="negative" name="negative" />
                         <button type="submit">Generate</button>
                         <div>Slider 1</div>
-                        <SuperSimple midi={midiMessage} setImageLoad={setImageLoad}></SuperSimple>
+                        <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex}></SuperSimple>
                         <div>Slider 2</div>
-                        <SuperSimple midi={midiMessage} setImageLoad={setImageLoad}></SuperSimple>
-                        <div>Slider 3</div>
-                        <SuperSimple midi={midiMessage} setImageLoad={setImageLoad}></SuperSimple>
+                        <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex}></SuperSimple>
                         <div>Result Image</div>
                         <Image
                             src={imageLoad}
@@ -99,7 +172,7 @@ export default function Home() {
 
                         <div>Memory loaded images</div>
                         <Image
-                            src="/test_images/bowl_of_fruits/02658-64228577-a bowl of fruits including apple, orange, grapes.png"
+                            src="/test_images/bowl_of_fruits/a bowl of fruits including apple, orange, grapes.png"
                             alt="Bowl"
                             className=""
                             width={100}
