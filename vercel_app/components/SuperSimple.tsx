@@ -9,8 +9,6 @@ interface SliderProps {
 }
 
 const SuperSimple: FC<SliderProps> = ({ midi, setImageLoad }) => {
-    //state = { values: [50] };
-
     const [values, setValues] = useState(0);
     const [command, setCommand] = useState(0);
     const [note, setNote] = useState(0);
@@ -43,7 +41,7 @@ const SuperSimple: FC<SliderProps> = ({ midi, setImageLoad }) => {
                 min={0}
                 max={3}
                 values={[values]}
-                onChange={(values) => setValues(values)}
+                onChange={(values: any) => setValues(values)}
                 renderTrack={({ props, children }) => (
                     <div
                         {...props}
