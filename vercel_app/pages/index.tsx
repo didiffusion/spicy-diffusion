@@ -268,6 +268,7 @@ useEffect(() => {
                     </div>
                 </div>
                 <div>
+                    <h1 style={{ textAlign: "center", fontSize: 48 }}>Spicy Diffusion (by LAIA)</h1>
                     <form style={{ display: "flex", flexDirection: "column", width: "50vw" }}>
                         <div style={{ margin: 20, textAlign: "center" }}>
                             <label style={{ marginRight: 10 }} htmlFor="positive">Prompt</label>
