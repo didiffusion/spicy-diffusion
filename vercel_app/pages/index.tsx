@@ -210,7 +210,8 @@ function handleGenerate(e:any){
 const generateImage = async (text_prompts, x, y) => {
     // text_prompts to send to the API
     // x, y position in the matrix to load the base64 image on
-    const engineId = 'stable-diffusion-768-v2-1';
+    const engineId = 'stable-diffusion-v1-5';
+    // Available engines: stable-diffusion-v1-5 stable-diffusion-512-v2-1 stable-diffusion-768-v2-1
     const apiHost = 'https://api.stability.ai'; // ???
     const apiKey = userApiKey; // ???
 
@@ -229,8 +230,8 @@ const generateImage = async (text_prompts, x, y) => {
                 text_prompts: text_prompts,
                 cfg_scale: 7,
                 clip_guidance_preset: 'FAST_BLUE',
-                height: 768,
-                width: 768,
+                height: 512,
+                width: 512,
                 samples: 1,
                 steps: 10,
             }),
@@ -278,9 +279,9 @@ const generateImage = async (text_prompts, x, y) => {
                         <input style={{ color: "black" }} onChange={(e: any) => setUserApiKey(e.target.value)} type="password" id="api-key" name="apiKey" />
                         <button onClick={(e) => handleGenerate(e)} style={{ border: "1px solid white", margin: 20, fontSize: 26, padding: 32 }} type="submit">Generate</button>
                         <div>Slider 1</div>
-                        <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad}></SuperSimple>
+                        <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad} defaultNote={0}></SuperSimple>
                         <div>Slider 2</div>
-                        <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad}></SuperSimple>
+                        <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad} defaultNote={1}></SuperSimple>
                         <div>Result Image</div>
                         <Image
                             src={imageLoad}

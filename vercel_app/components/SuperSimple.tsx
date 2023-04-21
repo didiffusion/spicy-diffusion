@@ -8,9 +8,9 @@ interface SliderProps {
     updateMatrixIndex: Function;
 }
 
-const SuperSimple: FC<SliderProps> = ({ midiMessage, updateMatrixIndex, setImageLoad }) => {
+const SuperSimple: FC<SliderProps> = ({ midiMessage, updateMatrixIndex, setImageLoad, defaultNote }) => {
     const [sliderValue, setSliderSliderValues] = useState(0);
-    const [note, setNote] = useState(0);
+    const [note, setNote] = useState(defaultNote);
 
     function clamp(input: number, min: number, max: number): number {
         return input < min ? min : input > max ? max : input;
@@ -36,12 +36,12 @@ const SuperSimple: FC<SliderProps> = ({ midiMessage, updateMatrixIndex, setImage
 
     useEffect(() => {
         let mapped_value = map(midiMessage.value, 0,127,0,6)
-        updateMatrixIndex(midiMessage.channel, Math.floor(mapped_value))
+        //updateMatrixIndex(midiMessage.channel, Math.floor(mapped_value))
     }, [midiMessage]);
 
     useEffect(() => {
-        if (sliderValue) {
-            updateMatrixIndex(0, sliderValue[0])
+        if (sliderValue && image_matrix && image_matrix_index) {
+            updateMatrixIndex(note, sliderValue)
             setImageLoad(image_matrix[image_matrix_index[0]][image_matrix_index[1]])
         }
     }, [sliderValue]);
