@@ -53,15 +53,16 @@ const SuperSimple: FC<SliderProps> = ({ midiMessage, updateMatrixIndex, setImage
                 min={0}
                 max={6}
                 values={[sliderValue]}
-                onChange={(values) => setSliderSliderValues(values)}
+                onChange={(values: any) => setSliderSliderValues(values)}
                 renderTrack={({ props, children }) => (
                     <div
                         {...props}
                         style={{
                             ...props.style,
-                            height: "6px",
+                            height: "8px",
                             width: "100%",
                             backgroundColor: "#ccc",
+                            marginBottom: 15
                         }}
                     >
                         {children}
@@ -72,8 +73,9 @@ const SuperSimple: FC<SliderProps> = ({ midiMessage, updateMatrixIndex, setImage
                         {...props}
                         style={{
                             ...props.style,
-                            height: "42px",
-                            width: "42px",
+                            height: 24,
+                            width: 24,
+                            borderRadius: 20,
                             backgroundColor: "#999",
                         }}
                     />

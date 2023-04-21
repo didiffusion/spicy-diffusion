@@ -4,9 +4,9 @@
 // Cargar la matriz con los resutlados de las imagenes
 
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import {Inter} from "next/font/google";
 import SuperSimple from "@/components/SuperSimple";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -112,8 +112,7 @@ export default function Home() {
     }
 
     function getPromptWithoutKeywords(){
-        let result = userInput.replace(/ *\_[^)]*\_ */g, "");
-        return result
+        return userInput.replace(/ *\_[^)]*\_ */g, "")
     }
 
     function updateMatrixIndex(dimension, value) {
@@ -147,10 +146,6 @@ export default function Home() {
     };
 
     useEffect(() => {
-        //console.log("PROMPT:", prompt)
-    }, [prompt]);
-
-    useEffect(() => {
         handleMidi();
         setImageLoad(image_matrix[image_matrix_index[0]][image_matrix_index[1]]);
         return () => {};
@@ -182,14 +177,13 @@ function handleGenerate(e:any){
       });     
 
     //console.log(result)
-    var pairs = []
-    var pairs = result[0]?.reduce(
+    let pairs: any[]
+    pairs = result[0]?.reduce(
          (p, c) => p.concat(
             result[1].map( v => [c].concat(v).
             concat({"x":result[0].indexOf(c),"y":result[1].indexOf(v)}))
         ), []
     )
-    //console.log(pairs)
 
     pairs?.forEach(item => {
         let text_prompts = [
@@ -200,12 +194,9 @@ function handleGenerate(e:any){
         console.log(text_prompts)
         console.log(item[2])
         generateImage(text_prompts, item[2].x, item[2].y)
-
     });
 
 }
-
-
 
 const generateImage = async (text_prompts, x, y) => {
     // text_prompts to send to the API
@@ -249,6 +240,10 @@ const generateImage = async (text_prompts, x, y) => {
     });
 }
 
+useEffect(() => {
+    console.log("PROMPT", prompt)
+}, []);
+
     return (
         <>
             <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -273,18 +268,26 @@ const generateImage = async (text_prompts, x, y) => {
                     </div>
                 </div>
                 <div>
-                    <form>
-                        <label htmlFor="positive">Positive Prompt:</label>
-                        <input style={{ color: "black" }} onChange={(e: any) => setUserInput(e.target.value)} type="text" id="positive" name="positive" />
-                        <label htmlFor="api-key">Api key:</label>
-                        <input style={{ color: "black" }} onChange={(e: any) => setUserApiKey(e.target.value)} type="password" id="api-key" name="apiKey" />
-                        <button onClick={(e) => handleGenerate(e)} style={{ border: "1px solid white", margin: 20, fontSize: 26, padding: 32 }} type="submit">Generate</button>
-                        <div>Slider 1</div>
-                        <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad} defaultNote={0}></SuperSimple>
-                        <div>Slider 2</div>
-                        <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad} defaultNote={1}></SuperSimple>
-                        <div>Result Image</div>
+                    <form style={{ display: "flex", flexDirection: "column", width: "50vw" }}>
+                        <div style={{ margin: 20, textAlign: "center" }}>
+                            <label style={{ marginRight: 10 }} htmlFor="positive">Prompt</label>
+                            <input style={{ color: "black", borderRadius: 2, width: "40%", padding: 5 }} onChange={(e: any) => setUserInput(e.target.value)} type="text" id="positive" name="positive" />
+                        </div>
+                        <div style={{ margin: 20, textAlign: "center" }}>
+                            <label style={{ marginRight: 10 }} htmlFor="api-key">Api key</label>
+                            <input style={{ color: "black", borderRadius: 2, width: "40%", padding: 5 }} onChange={(e: any) => setUserApiKey(e.target.value)} type="password" id="api-key" name="apiKey" />
+                        </div>
+                        <button disabled={!prompt || !userApiKey} style={{ border: "1px solid white", opacity: `${!prompt || !userApiKey ? 0.6 : 1}`, transition: "0.5s ease", fontSize: 26, padding: 10, width: "20%", margin: "auto", textAlign: "center" }} onClick={(e) => handleGenerate(e)} type="submit">Generate</button>
+                        <div style={{ width: "55%", margin: "20px auto" }}>
+                            <h2 style={{ marginBottom: 10, color: "white" }}>{prompt.length > 0 ? prompt[0] : "First value"}</h2>
+                            <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad} defaultNote={0}></SuperSimple>
+                        </div>
+                        <div style={{ width: "55%", margin: "20px auto" }}>
+                            <h2 style={{ marginBottom: 10, color: "white" }}>{prompt.length > 1 ? prompt[1] : "Second value"}</h2>
+                            <SuperSimple midiMessage={midiMessage} updateMatrixIndex={updateMatrixIndex} setImageLoad={setImageLoad} defaultNote={1}></SuperSimple>
+                        </div>
                         <Image
+                            style={{ margin: "auto", borderRadius: 2 }}
                             src={imageLoad}
                             alt="Bowl"
                             className=""
@@ -292,12 +295,7 @@ const generateImage = async (text_prompts, x, y) => {
                             height={512}
                             priority
                         />
-                        <Image src={`data:image/jpg;base64,${imgExample}`} width={768} height={768} alt="img-example" />
                     </form>
-                </div>
-
-                <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-                    <footer>Footer</footer>
                 </div>
             </main>
         </>
