@@ -39,7 +39,7 @@ const SuperSimple: FC<SliderProps> = ({ midiMessage, updateMatrixIndex }) => {
     useEffect(() => {
         let mapped_value = map(midiMessage.value, 0,127,0,6)
         updateMatrixIndex(midiMessage.channel, Math.floor(mapped_value))
-    }, [value]);
+    }, [midiMessage]);
 
     return (
         <>
