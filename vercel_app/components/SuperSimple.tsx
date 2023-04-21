@@ -6,6 +6,8 @@ import {image_matrix, image_matrix_index} from "@/pages";
 interface SliderProps {
     midiMessage: {channel:number, value:number};
     updateMatrixIndex: Function;
+    setImageLoad: Function;
+    defaultNote: number;
 }
 
 const SuperSimple: FC<SliderProps> = ({ midiMessage, updateMatrixIndex, setImageLoad, defaultNote }) => {
