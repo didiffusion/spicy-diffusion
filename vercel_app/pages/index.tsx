@@ -199,14 +199,17 @@ function handleGenerate(e:any){
         ]
         console.log(text_prompts)
         console.log(item[2])
-        
+        generateImage(text_prompts, item[2].x, item[2].y)
+
     });
 
 }
 
 
 
-const generateImage = async () => {
+const generateImage = async (text_prompts, x, y) => {
+    // text_prompts to send to the API
+    // x, y position in the matrix to load the base64 image on
     const engineId = 'stable-diffusion-768-v2-1';
     const apiHost = 'https://api.stability.ai'; // ???
     const apiKey = userApiKey; // ???
@@ -223,11 +226,7 @@ const generateImage = async () => {
                 Authorization: `Bearer ${apiKey}`,
             },
             body: JSON.stringify({
-                text_prompts: [
-                    {
-                        text: 'A lighthouse on a cliff',
-                    },
-                ],
+                text_prompts: text_prompts,
                 cfg_scale: 7,
                 clip_guidance_preset: 'FAST_BLUE',
                 height: 768,
@@ -241,6 +240,8 @@ const generateImage = async () => {
     await response.json().then((data) => {
         if (data)
             setImgExample(data.artifacts[0].base64)
+            image_matrix[x][y] = `data:image/jpg;base64,` + data.artifacts[0].base64
+
     }).catch((error) => {
         console.log(error);
     });
