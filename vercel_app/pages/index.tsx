@@ -201,7 +201,7 @@ function handleGenerate(e:any){
 const generateImage = async (text_prompts, x, y) => {
     // text_prompts to send to the API
     // x, y position in the matrix to load the base64 image on
-    const engineId = 'stable-diffusion-v1-5';
+    const engineId = 'stable-diffusion-v1-6';
     // Available engines: stable-diffusion-v1-5 stable-diffusion-512-v2-1 stable-diffusion-768-v2-1
     const apiHost = 'https://api.stability.ai'; // ???
     const apiKey = userApiKey; // ???
